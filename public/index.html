@@ -108,27 +108,21 @@
 var datasource = {
     datasets: [
        {
-           data: [50,450,250,100,75,150,300],
+           data: [],
         backgroundColor: [
                 "#FF6384",
                 "#63FF84",
                 "#84FF63",
                 "#8463FF",
-                "#63845F",
-                "#64844A",
+                "#808000",
+                "	#FFFF00",
                 
                          ],
        }
     ],
     labels: [
 
-    'Eat out',
-    'Rent', 
-    'Groceries',
-    'Car-Shopping',
-    'HealthInsurance',
-    'Education',
-    'Miscelleneous'
+    
             ]
         
         };
@@ -141,16 +135,16 @@ var datasource = {
                 data: datasource
             });
             }
-            createChart();
 
 
             function getbudget(){
                 axios.get('/budget')
                 .then(function(res){
                     console.log(res);
-                    for(var i=0; i<res.data.length; i++){
-                        datasource.datasets[0].data[i] =res.data[i].budget;
-                        datasource.labels[i]=res.data[i].title;
+                    console.log("hello 1",res);
+                    for(var i=0; i<res.data.mybudget.length; i++){
+                        datasource.datasets[0].data[i] =res.data.mybudget[i].budget;
+                        datasource.labels[i]=res.data.mybudget[i].title;
                     }
 
                     createChart();
