@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
-import {chart} from 'chart.js';
+import {Chart} from 'chart.js';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'pb-homepage',
@@ -25,26 +25,24 @@ export class HomepageComponent implements OnInit {
     labels: []
       };
 
-  constructor(private http: HttpClient) {
+  constructor(public dataService: DataService) {
   }
 
   ngOnInit(): void {
-    this.http.get('http://localhost:3000/budget')
-    .subscribe((res: any) => {
+    this.dataService.getData().subscribe((res: any) => {
       console.log(res);
-
-      for ( let i = 0; i < res.mybudget[i].length; i++){
-       this.datasource.datasets[0].data[i] = res.mybudget[i].budget;
-       this.datasource.labels[i] = res.mybudget[i].title;
-       this.createChart();
+      for ( var i = 0 ; i < res.mybudget.length; i++) {
+          this.datasource.datasets[0].data[i] = res.mybudget[i].budget;
+          this.datasource.labels[i] = res.mybudget[i].title;
+          this.createChart();
+      }
+    });
     }
 
-    });
-  }
     // tslint:disable-next-line: typedef
     createChart(){
-    const ctx = document.getElementById('myChart');
-    const myPieChart = new chart(ctx, {
+    var ctx = document.getElementById('myChart');
+    var myPieChart = new Chart(ctx, {
         type : 'pie',
         data: this.datasource
     });
